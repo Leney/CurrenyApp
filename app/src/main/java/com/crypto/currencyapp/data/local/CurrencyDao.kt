@@ -28,7 +28,7 @@ interface CurrencyDao {
             SELECT id FROM currencies
             WHERE listSource = 'B' AND (',' || features || ',' LIKE '%,purchase,%')
         )
-        AND listSource = 'A' -- 确保我们只从一个源返回结果，避免重复
+        AND listSource = 'A' --
         ORDER BY name ASC
     """
     )

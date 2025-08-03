@@ -26,7 +26,6 @@ class CurrencyListViewModel @Inject constructor(
 
     private var currentJob: Job? = null
 
-    // Activity 将会调用这个方法来加载或切换列表
     fun loadCurrencies(listType: ListType) {
         currentJob?.cancel() // 取消上一次的加载任务
         currentJob = viewModelScope.launch {
@@ -36,7 +35,6 @@ class CurrencyListViewModel @Inject constructor(
                     if (currencies.isEmpty()) UiState.Empty else UiState.Success(currencies)
                 }
                 .catch {
-                    // 如果有异常，可以发射一个错误状态
                     // emit(UiState.Error(it.message ?: "Unknown error"))
                     _uiState.value = UiState.Empty // 简单处理，同样显示为空
                 }

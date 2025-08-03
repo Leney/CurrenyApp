@@ -55,7 +55,6 @@ class DemoActivity : ComponentActivity() {
 @Composable
 fun DemoApp(
     demoViewModel: DemoViewModel,
-    // 我们直接在 Composable 中创建 CurrencyListViewModel
     currencyListViewModel: CurrencyListViewModel = viewModel()
 ) {
     // 使用 State 来保存当前要显示的列表类型
@@ -88,7 +87,6 @@ fun DemoApp(
         )
 
         // 货币列表显示区域
-        // 直接调用 CurrencyListScreen，它现在是应用的一部分
         CurrencyListScreen(uiState = currencyListUiState)
     }
 }
@@ -101,7 +99,6 @@ fun DemoControlScreen(
     onShowListB: () -> Unit,
     onShowBoth: () -> Unit
 ) {
-    // 这个函数的实现可以保持不变
     Column(modifier = Modifier.padding(8.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),

@@ -34,9 +34,7 @@ class CurrencyRepositoryImpl @Inject constructor(
         dao.insertAll(listB)
 //        Log.d("DEBUG_REPO", "Attempted to insert ${listA.size} items from List A and ${listB.size} items from List B.")
 
-        // *** 关键调试代码 ***
-        // 立即查询所有数据，看看总数对不对
-        val allItems = dao.getAllItemsForDebug() // 我们需要添加这个DAO方法
+//        val allItems = dao.getAllItemsForDebug()
 //        Log.d("DEBUG_REPO", "Verification: Total items in DB after insert: ${allItems.size}")
 //        allItems.take(5).forEach { // 打印前5条看看
 //            Log.d("DEBUG_REPO", "Item in DB: ${it.id}, Source: ${it.listSource}, Features: ${it.features}")

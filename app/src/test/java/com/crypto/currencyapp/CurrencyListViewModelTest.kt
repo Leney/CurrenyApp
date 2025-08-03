@@ -52,21 +52,11 @@ class CurrencyListViewModelTest {
         every { getCurrenciesUseCase(any()) } returns flowOf(fakeData)
 
         viewModel.uiState.test {
-            // 1. 消费掉初始的 Loading 状态
             assertEquals(UiState.Loading, awaitItem())
-
-            // 2. 触发加载
             viewModel.loadCurrencies(ListType.LIST_A)
-
-            // 3. 因为是 Unconfined dispatcher，`_uiState.value = UiState.Loading`
-            //    和后面的 collect 会立即执行。
-            //    StateFlow 会合并相同的连续值，所以我们只会收到最终的 Success 状态。
-            //    所以我们不需要再断言中间的 Loading 状态了。
             val result = awaitItem()
             assertTrue(result is UiState.Success)
             assertEquals(fakeData, (result as UiState.Success).data)
-
-            // 4. 为确保没有其他意外的发射，取消监听。
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -77,35 +67,22 @@ class CurrencyListViewModelTest {
         every { getCurrenciesUseCase(any()) } returns flowOf(emptyList())
 
         viewModel.uiState.test {
-            // 1. 消费掉初始的 Loading 状态
             assertEquals(UiState.Loading, awaitItem())
-
-            // 2. 触发加载
             viewModel.loadCurrencies(ListType.LIST_B)
-
-            // 3. 直接断言最终的 Empty 状态
             assertEquals(UiState.Empty, awaitItem())
-
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
     fun `loadCurrencies should emit Empty when use case throws exception`() = runTest {
-        // Given
         val exception = RuntimeException("Network Error")
         every { getCurrenciesUseCase(any()) } returns flow { throw exception }
 
         viewModel.uiState.test {
-            // 1. 消费掉初始的 Loading 状态
             assertEquals(UiState.Loading, awaitItem())
-
-            // 2. 触发加载
             viewModel.loadCurrencies(ListType.LIST_A)
-
-            // 3. 直接断言最终的 Empty 状态 (来自catch块)
             assertEquals(UiState.Empty, awaitItem())
-
             cancelAndIgnoreRemainingEvents()
         }
     }
